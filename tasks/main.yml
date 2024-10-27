@@ -1,0 +1,49 @@
+---
+
+## Check
+
+- name: Check variables
+  ansible.builtin.assert:
+    that:
+      - ansible_user_uid     is defined
+      - ansible_user_gid     is defined
+      - jackett_download_dir is defined
+
+- name: Check directories
+  ansible.builtin.stat: { path: "{{ item }}" }
+  register: _dir
+  failed_when: not _dir.stat.exists or not _dir.stat.writeable or not (_dir.stat.isdir or _dir.stat.islnk)
+  loop:
+    - "{{ jackett_download_dir }}"
+  tags: ["init"]
+
+## Init
+
+- name: Ensure project directory exists
+  ansible.builtin.file:
+    path: "{{ docker_project_path }}"
+    state: directory
+    mode: '0755'
+  tags: ["init"]
+
+- name: Ensure config directory exists
+  ansible.builtin.file:
+    path: "{{ docker_project_path }}/config"
+    state: directory
+    mode: '0775'
+  tags: ["init"]
+
+## Configure
+
+- name: Template docker-compose.yml
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ docker_project_path }}/docker-compose.yml"
+    mode: '0644'
+    validate: "{{ docker_cli }} compose -f %s config"
+    backup: true
+
+## Run
+
+- name: Start app
+  ansible.builtin.include_role: { name: djuuu.docker_project, tasks_from: compose-up }
