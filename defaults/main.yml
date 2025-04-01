@@ -25,3 +25,6 @@ jackett_flaresolverr_version: latest
 
 # Jackett blackhole directory
 jackett_download_dir: "{{ docker_project_path }}/downloads"
+
+# Jackett network mode (bridge|host)
+jackett_network_mode: bridge
