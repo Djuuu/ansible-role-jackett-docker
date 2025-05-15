@@ -45,7 +45,7 @@ jackett_traefik_middlewares:
   - "internal-access@file"
 
 # Flaresolverr service additional docker-compose options (ex: cpu_shares, deploy, ...)
-jackett_flaresolverr_compose_service_additional_options: ""
+jackett_flaresolverr_service_additional_options: ""
 
 
 # Jackett project variables
@@ -63,9 +63,6 @@ jackett_download_dir: "{{ docker_project_path }}/downloads"
 jackett_puid: "{{ ansible_user_uid }}"
 # GID container is running as
 jackett_pgid: "{{ ansible_user_gid }}"
-
-# Jackett network mode (bridge|host)
-jackett_network_mode: bridge
 ```
 
 Dependencies
