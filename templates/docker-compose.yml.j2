@@ -26,8 +26,7 @@ services:
 
     labels:
       {{ traefik_project_base_labels | indent(6) }}
-      # What's up Docker? - https://github.com/getwud/wud
-      wud.watch.digest: true
+      {{ docker_project_service_additional_labels | indent(6) }}
 
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:{{ jackett_flaresolverr_version }}
@@ -44,9 +43,10 @@ services:
       - CAPTCHA_SOLVER=none
       - TZ={{ timezone | default('UTC') }}
 
+    {% if jackett_flaresolverr_service_additional_labels %}
     labels:
-      # What's up Docker? - https://github.com/getwud/wud
-      wud.watch.digest: true
+      {{ jackett_flaresolverr_service_additional_labels | indent(6) }}
+    {% endif %}
 
 {{ docker_project_networks }}
 

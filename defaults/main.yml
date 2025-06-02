@@ -13,6 +13,8 @@ jackett_traefik_middlewares:
 
 # Flaresolverr service additional docker-compose options (ex: cpu_shares, deploy, ...)
 jackett_flaresolverr_service_additional_options: ""
+# Flaresolverr service additional docker-compose labels (ex: wud.tag.include, ...)
+jackett_flaresolverr_service_additional_labels: ""
 
 
 # Jackett project variables
